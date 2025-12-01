@@ -125,7 +125,7 @@ for i, q in enumerate(st.session_state.questions):
     st.session_state.answers[i] = choice[0] if choice else ""
 st.write("")
 
-    if st.button("Submit answers"):
+if st.button("Submit answers"):
         st.session_state.score = calc_score()
         st.session_state.feedback = make_feedback()
 
