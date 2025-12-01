@@ -100,14 +100,30 @@ if st.button("Generate quiz"):
 
 if st.session_state.questions:
     st.subheader("Quiz")
-    for i, q in enumerate(st.session_state.questions):
-        st.write(f"*Q{i+1}. {q['question']}*")
-        st.session_state.answers[i] = st.radio(
-            f"Your answer for Q{i+1}",
-            ["A", "B", "C", "D"],
-            key=f"q{i}"
-        )
-        st.write("")
+for i, q in enumerate(st.session_state.questions):
+    st.write(f"*Q{i+1}. {q['question']}*")
+
+    # Build label with option letters + text
+    options = q.get("options", [])
+    labeled_options = []
+    letters = ["A", "B", "C", "D"]
+    for idx, opt in enumerate(options):
+        letter = letters[idx]
+        # if opt already starts with "A) ..." keep as is, else add
+        if opt.strip().upper().startswith(tuple([f"{l})" for l in letters])):
+            labeled_options.append(opt)
+        else:
+            labeled_options.append(f"{letter}) {opt}")
+
+    choice = st.radio(
+        f"Your answer for Q{i+1}",
+        labeled_options,
+        key=f"q{i}"
+    )
+
+    # Store only the letter (A/B/C/D)
+    st.session_state.answers[i] = choice[0] if choice else ""
+    st.write("")
 
     if st.button("Submit answers"):
         st.session_state.score = calc_score()
