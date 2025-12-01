@@ -123,7 +123,7 @@ for i, q in enumerate(st.session_state.questions):
 
     # Store only the letter (A/B/C/D)
     st.session_state.answers[i] = choice[0] if choice else ""
-   st.write("")
+st.write("")
 
     if st.button("Submit answers"):
         st.session_state.score = calc_score()
